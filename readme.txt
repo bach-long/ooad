@@ -3,4 +3,7 @@ trong folder be có file .env, sửa các thông tin của mysql khớp với m�
 composer install
 php artisan serve để start server
 
-Để seed dữ liệu dùng command php artisan db:seed
+Để seed dữ liệu dùng command 
+php artisan migrate:install // chay tren ubuntu can them 
+php artisan migrate  // chay tren ubuntu can them 
+php artisan db:seed
