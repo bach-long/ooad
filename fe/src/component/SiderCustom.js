@@ -18,7 +18,7 @@ const SiderCustom = ({ menuProps = {} }) => {
     <Sider
       style={{
         height: "calc(100vh - 64px)",
-        top: 0,
+        top: 64,
         position: "sticky",
         left: 0,
         bottom: 0,
@@ -28,23 +28,6 @@ const SiderCustom = ({ menuProps = {} }) => {
       collapsible
       collapsed={collapsed}
     >
-      <div
-        style={{
-          height: "64px",
-          backgroundColor: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {!collapsed ? (
-          <label style={{ fontSize: 48, fontWeight: 900 }} className="logo">
-            LOGO
-          </label>
-        ) : (
-          <></>
-        )}
-      </div>
       <Menu
         onClick={handleClickMenuOption}
         style={{ height: "100%" }}
