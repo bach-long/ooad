@@ -16,6 +16,8 @@ class Task extends Model
         'address_id',
         'category_id',
         'detail_address',
+        'description',
+        'requiment',
         'amount',
         'method',
         'salary_min',
@@ -24,7 +26,7 @@ class Task extends Model
         'start',
         'end',
         'status',
-        'type_id'
+        'gender',
     ];
 
     protected $primarykey = 'id';
@@ -59,6 +61,11 @@ class Task extends Model
     public function appliedBy () {
         return $this->belongsToMany(User::class, 'applier_task', 'task_id', 'applier_id')
         ->using(Applier_task::class)->withPivot('id', 'applier_id', 'task_id', 'fail')->withTimestamps();
+    }
+
+    public function savedBy () {
+        return $this->belongsToMany(User::class, 'save', 'task_id', 'applier_id')
+        ->using(Save::class)->withPivot('id', 'applier_id', 'task_id')->withTimestamps();
     }
 
     public function company () {
