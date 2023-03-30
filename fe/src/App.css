@@ -117,3 +117,8 @@
 .width-40 {
   width: 40%;
 }
+
+.text-description {
+  font-size: 20px;
+  white-space: pre-line;
+}

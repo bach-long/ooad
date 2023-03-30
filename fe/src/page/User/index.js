@@ -32,7 +32,7 @@ const User = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/job/*" element={<Job />} />
-          <Route path="/company" element={<Company />} />
+          <Route path="/company/*" element={<Company />} />
           <Route path="/profile/*" element={<Profile />} />
         </Routes>
       </div>

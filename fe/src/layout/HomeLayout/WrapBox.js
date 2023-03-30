@@ -51,7 +51,7 @@ const WrapBox = ({ title, isShowAll = true, isPagination = false }) => {
     },
   ];
   return (
-    <Col className="padding-home">
+    <Col style={{ padding: "40px 10% 40px 10%" }}>
       <Row
         style={{
           justifyContent: "space-between",
@@ -71,7 +71,7 @@ const WrapBox = ({ title, isShowAll = true, isPagination = false }) => {
           {data &&
             data.length > 0 &&
             data.map((item, index) => {
-              return <BoxJob data={item} size={140} />;
+              return <BoxJob data={item} size={140} key={index} />;
             })}
         </Col>
       </Row>

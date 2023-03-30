@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Col, Row, Input, Button } from "antd";
 
-const BoxSearch = ({ handleSearch }) => {
+const BoxSearch = ({
+  handleSearch,
+  placeholder = "Công việc, vị trí ứng tuyển",
+}) => {
   const [key, setKey] = useState("");
   return (
     <Row>
       <Col span={20}>
         <Input
-          placeholder="Công việc, vị trí ứng tuyển"
+          placeholder={placeholder}
           className="input-custom"
           size="large"
           onChange={(e) => {

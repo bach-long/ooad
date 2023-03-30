@@ -3,13 +3,14 @@ import { Row, Col, Image, Button } from "antd";
 import "../layout/HomeLayout/HomeLayout.scss";
 import { useNavigate } from "react-router-dom";
 
-const BoxJob = ({ data, size }) => {
+const BoxJob = ({ data, size, key }) => {
   const navigate = useNavigate();
 
   return (
     <Row
+      key={key}
       className="shadow-box-job"
-      style={{ marginBottom: 20, alignItems: "center" }}
+      style={{ marginBottom: 30, alignItems: "center" }}
     >
       <Col span={4} style={{ padding: "10px 30px" }}>
         <Image

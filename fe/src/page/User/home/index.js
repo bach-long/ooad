@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const handleSearch = (key) => {
-    console.log("search");
-    navigate(`/search/${key}`);
+    navigate(`/job/${key}`);
   };
 
   return (
