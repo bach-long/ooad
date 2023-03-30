@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Col, Row } from "antd";
-import Search from "./Search";
-const Banner = ({ role, image }) => {
+import BoxSearch from "./BoxSearch";
+const Banner = ({ role = 0, image = "", search }) => {
   return (
     <Col>
       <Row
@@ -30,7 +30,7 @@ const Banner = ({ role, image }) => {
               }}
             >
               <Row className="font-banner">Chung toi doi ban o day</Row>
-              <Search />
+              <BoxSearch handleSearch={search} />
             </Col>
           </Col>
         ) : null}

@@ -1,7 +1,11 @@
 import React from "react";
 import { Row, Col, Image, Button } from "antd";
 import "../layout/HomeLayout/HomeLayout.scss";
+import { useNavigate } from "react-router-dom";
+
 const BoxJob = ({ data, size }) => {
+  const navigate = useNavigate();
+
   return (
     <Row
       className="shadow-box-job"
@@ -45,14 +49,14 @@ const BoxJob = ({ data, size }) => {
         <Row style={{ paddingBottom: 4 }}>
           <Row style={{ paddingRight: "20%" }}>
             <Col>
-              <i class="fa-light fa-location-dot" />
+              <i className="fa-light fa-location-dot" />
               Địa điểm
             </Col>
             <Col style={{ paddingLeft: 4 }}>{data.location}</Col>
           </Row>
           <Row>
             <Col>
-              <i class="fa-light fa-location-dot" />
+              <i className="fa-light fa-location-dot" />
               Luơng
             </Col>
             <Col style={{ paddingLeft: 4 }}>{data.location}</Col>~
@@ -61,7 +65,13 @@ const BoxJob = ({ data, size }) => {
         </Row>
       </Col>
       <Col span={4}>
-        <Button className="button-job" size="large">
+        <Button
+          className="button-job"
+          size="large"
+          onClick={() => {
+            navigate(`/job/detail/${1}`);
+          }}
+        >
           Xem ngay
         </Button>
       </Col>

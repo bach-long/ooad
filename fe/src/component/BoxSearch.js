@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row, Input, Button } from "antd";
 
-const Search = () => {
+const BoxSearch = ({ handleSearch }) => {
+  const [key, setKey] = useState("");
   return (
     <Row>
       <Col span={20}>
@@ -9,12 +10,18 @@ const Search = () => {
           placeholder="Công việc, vị trí ứng tuyển"
           className="input-custom"
           size="large"
+          onChange={(e) => {
+            setKey(e.target.value);
+          }}
         />
       </Col>
       <Col span={4}>
         <Button
           className="button-search center-flex"
-          style={{ height: "100%" }}
+          style={{ height: "100%", width: "100%" }}
+          onClick={() => {
+            handleSearch(key);
+          }}
         >
           Tìm ngay
         </Button>
@@ -23,4 +30,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default BoxSearch;
