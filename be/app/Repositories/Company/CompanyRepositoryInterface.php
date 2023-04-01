@@ -15,5 +15,7 @@ interface CompanyRepositoryInterface
     public function getDetail(Request $request);
 
     public function search(Request $request);
+
+    public function editCompany(Request $request);
     
 }

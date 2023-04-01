@@ -87,7 +87,7 @@ class TaskController extends Controller
 
     public function create(Request $request) {
         try{
-            $data = $this->taskRepository->createTask($request);;
+            $data = $this->taskRepository->createTask($request);
             if($data) {
                 return response()->json(
                     [
