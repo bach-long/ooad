@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\RepositoryInterface;
+use Illuminate\Support\Arr;
 
 abstract class EloquentRepository implements RepositoryInterface
 {
@@ -103,7 +104,8 @@ abstract class EloquentRepository implements RepositoryInterface
         return false;
     }
 
-    public function getAllPaginate($amountPerPage) {
+    public function getAllPaginate($amountPerPage)
+    {
         return $this->_model->paginate($amountPerPage);
     }
 }
