@@ -2,8 +2,8 @@ import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import HomeLayout from "../../layout/HomeLayout";
 import Home from "./home";
-import Profile from "../User/profile";
-
+import Profile from "./profile";
+import Recruit from "./recruit";
 const HR = () => {
   const items = [
     {
@@ -19,8 +19,8 @@ const HR = () => {
       key: "candidate",
     },
     {
-      label: <Link to={"/profile/"}>Hồ sơ</Link>,
-      key: "profile",
+      label: <Link to={"/work/"}>Công việc</Link>,
+      key: "work",
     },
   ];
 
@@ -30,6 +30,7 @@ const HR = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile/*" element={<Profile />} />
+          <Route path="/recruit" element={<Recruit />} />
         </Routes>
       </div>
     </HomeLayout>
