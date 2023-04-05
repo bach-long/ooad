@@ -14,6 +14,7 @@ class Company extends Model
     use HasApiTokens, HasFactory, Notifiable;
     protected $fillable = [
         'name',
+        'role',
         'link',
         'email',
         'image',

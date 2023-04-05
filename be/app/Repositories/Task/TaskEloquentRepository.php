@@ -24,12 +24,15 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
             ->with('types')
             ->with('company')
             ->with('hr')
-            ->with('address')->find($request->id);
+            ->with('address')
+            ->with("appliedBy")
+            ->withCount('appliedBy')
+            ->find($request->id);
         if($task->appliedBy->contains($request->user()->id)) {
             $task["applied"] = true;
         }
         //dd($request->user()->role);
-        if($request->user()->role != 1) {
+        if($request->user()->role != 1 && $request->user()->role != 2) {
             unset($task["appliedBy"]);
         }
         return $task;
@@ -91,7 +94,8 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     public function recommendedTasks(Request $request)
     {
-        $data = $this->_model->whereIn('address_id', $request->workablePlaces)->where('category_id', $request->categoryId)
+        //dd($request->user()->profile->workablePlaces);
+        $data = $this->_model->whereIn('address_id', Arr::pluck($request->user()->profile->workablePlaces, 'id'))->where('category_id', $request->user()->profile->category_id)
             ->with('category')
             ->with('expYear')
             ->with('types')
