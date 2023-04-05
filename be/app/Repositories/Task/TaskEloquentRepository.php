@@ -94,15 +94,30 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     public function recommendedTasks(Request $request)
     {
-        //dd($request->user()->profile->workablePlaces);
-        $data = $this->_model->whereIn('address_id', Arr::pluck($request->user()->profile->workablePlaces, 'id'))->where('category_id', $request->user()->profile->category_id)
+        //dd($request->user()->profi(le->workablePlaces);
+        //dd(Arr::pluck($request->user()->profile->workablePlaces, 'id'));
+        if($request->user()->profile){
+            $data = $this->_model->whereIn('address_id', Arr::pluck($request->user()->profile->workablePlaces, 'id'))->where('category_id', $request->user()->profile->category_id)
             ->with('category')
             ->with('expYear')
             ->with('types')
             ->with('company')
             ->with('address')
             ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->limit(6)
+            ->get();
+        } else {
+            $data = $this->_model
+            ->with('category')
+            ->with('expYear')
+            ->with('types')
+            ->with('company')
+            ->with('address')
+            ->orderBy('created_at', 'DESC')
+            ->limit(6)
+            ->get();
+        }
+        
         return $data;
     }
 
