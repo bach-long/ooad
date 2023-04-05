@@ -6,8 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -27,6 +27,7 @@ class User extends Authenticatable
         'birth_year',
         'gender',
         'role',
+        'hraccepted',
     ];
 
     /**
@@ -59,34 +60,60 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($model) {
-            if(empty($model->id))
-            $model->id = (string) Str::uuid();
+            if (empty($model->id)) {
+                $model->id = (string) Str::uuid();
+            }
+
+        });
+
+        static::updated(function ($model) {
+            if ($model->role != 1) {
+                $profile = Profile::where('applier_id', $model->id)->first();
+                if ($profile) {
+                    $profile->update([
+                        'birth_year' => $model->birth_year, 
+                        'fullname' => $model->fullname, 
+                        'gender' => $model->gender, 
+                        'email' => $model->email
+                    ]);
+                }
+            }
         });
     }
 
-    public function appliedTasks () {
+    public function appliedTasks()
+    {
         return $this->belongsToMany(Task::class, 'applier_task', 'applier_id', 'task_id')
-        ->using(Applier_task::class)->withPivot('id', 'applier_id', 'task_id')->withTimestamps();
+            ->using(Applier_task::class)->withPivot('id', 'applier_id', 'task_id')->withTimestamps();
     }
 
-    public function savedTasks () {
+    public function savedTasks()
+    {
         return $this->belongsToMany(Task::class, 'save', 'applier_id', 'task_id')
-        ->using(Save::class)->withPivot('id', 'applier_id', 'task_id')->withTimestamps();
+            ->using(Save::class)->withPivot('id', 'applier_id', 'task_id')->withTimestamps();
     }
 
-    public function managedTasks () {
+    public function managedTasks()
+    {
         return $this->hasMany(Task::class, 'hr_id', 'id');
     }
 
-    public function managedBy () {
+    public function managedBy()
+    {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    public function profile () {
+    public function profile()
+    {
         return $this->hasOne(Profile::class, 'applier_id', 'id');
     }
 
-    public function birthYear () {
+    public function birthYear()
+    {
         return $this->belongsTo(BirthYear::class, 'birth_year', 'id');
+    }
+
+    public function activationToken() {
+        return $this->hasOne(Activation::class, 'user_id', 'id');
     }
 }

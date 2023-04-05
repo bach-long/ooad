@@ -54,14 +54,14 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
         });
 
         $tempt = Arr::except($request->all(), ['projects', 'expDetail', 'workablePlaces', 'skills']);
-        $data = $this->_model->update($tempt);
+        $data = $profile->update($tempt);
 
         if ($data) {
             EXPdetail::query()->upsert($newExpDetail, ['id'], ['place', 'content']);
             Project::query()->upsert($newProjects, ['id'], ['amount_of_member', 'start', 'end', 'technology', 'description']);
 
-            EXPdetail::whereIn($deleteExpDetail)->delete();
-            Project::whereIn($deleteProjects)->delete();
+            EXPdetail::destroy($deleteExpDetail);
+            Project::destroy($deleteProjects);
 
             $profile->workablePlaces()->sync($request->workablePlaces);
             $profile->skills()->sync($request->skills);
@@ -78,7 +78,7 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
         if ($data) {
             EXPdetail::insert($request->expDetail);
             Project::insert($request->projects);
-            Work_address::insert($request->workablePlaces);
+            $data->workablePlaces()->attach($request->workablePlaces);
             Skill::insert($request->skills);
             return $data;
         } else {
