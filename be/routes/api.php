@@ -69,10 +69,11 @@ Route::prefix('task')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/all', [TaskController::class, 'index']);
         Route::get('/info/{id}', [TaskController::class, 'info']);
-        Route::post('/search', [TaskController::class, 'search']);
     });
-    Route::middleware(['auth:sanctum', 'abilities:role-1'])->post('/new', [TaskController::class, 'create']);
-    Route::middleware(['auth:sanctum', 'abilities:role-1'])->put('/update/{id}', [TaskController::class, 'update']);
+    Route::post('/search', [TaskController::class, 'search']);
+    Route::middleware(['auth:sanctum', 'abilities:role-hr'])->post('/new', [TaskController::class, 'create']);
+    Route::middleware(['auth:sanctum', 'abilities:role-hr'])->put('/update/{id}', [TaskController::class, 'update']);
+    Route::middleware(['auth:sanctum', 'abilities:role-hr'])->delete('/delete/{id}', [TaskController::class, 'delete']);
 });
 
 Route::prefix('company')->group(function () {
@@ -84,19 +85,20 @@ Route::prefix('company')->group(function () {
     Route::post('/new', [CompanyController::class, 'create']);
     Route::middleware(['auth:sanctum', 'abilities:role-company'])->put('/update/{id}', [CompanyController::class, 'update']);
     Route::middleware(['auth:sanctum', 'abilities:role-company'])->put('/accept/{id}', [CompanyController::class, 'accept']);
+    Route::get('/selection', [CompanyController::class, 'companySelect']);
 });
 
 Route::prefix('user')->group(function () {
     Route::middleware(['auth:sanctum'])->get('/applier/info/{id}', [UserController::class, 'infoApplier']);
-    Route::middleware(['auth:sanctum', 'ability:role-company,role-1'])->get('/hr/info/{id}', [UserController::class, 'infoHr']);
+    Route::middleware(['auth:sanctum', 'ability:role-company,role-hr'])->get('/hr/info/{id}', [UserController::class, 'infoHr']);
     Route::post('/new', [UserController::class, 'create']);
     Route::middleware(['auth:sanctum'])->put('/update/{id}', [UserController::class, 'update']);
-    Route::middleware(['auth:sanctum', 'abilities:role-'])->post('/apply/{applier_id}/{task_id}', [UserController::class, 'apply']);
-    Route::middleware(['auth:sanctum', 'abilities:role-'])->post('/save/{applier_id}/{task_id}', [UserController::class, 'save']);
+    Route::middleware(['auth:sanctum', 'abilities:role-user'])->post('/apply/{applier_id}/{task_id}', [UserController::class, 'apply']);
+    Route::middleware(['auth:sanctum', 'abilities:role-user'])->post('/save/{applier_id}/{task_id}', [UserController::class, 'save']);
 });
 
 Route::prefix('profile')->group(function () {
     Route::middleware(['auth:sanctum'])->get('/applier/info/{id}', [UserController::class, 'info']);
-    Route::middleware(['auth:sanctum', 'abilities:role-'])->post('/create', [UserController::class, 'create']);
-    Route::middleware(['auth:sanctum', 'abilities:role-'])->put('/update', [UserController::class, 'update']);
+    Route::middleware(['auth:sanctum', 'abilities:role-user'])->post('/create', [UserController::class, 'create']);
+    Route::middleware(['auth:sanctum', 'abilities:role-user'])->put('/update', [UserController::class, 'update']);
 });

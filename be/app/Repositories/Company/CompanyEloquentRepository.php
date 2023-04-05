@@ -7,8 +7,8 @@ use App\Repositories\EloquentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class CompanyEloquentRepository extends EloquentRepository implements CompanyRepositoryInterface
 {
@@ -23,18 +23,19 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
 
     public function getDetail(Request $request)
     {
-            $task = $this->_model
+        $task = $this->_model
             ->with('managedHrs')
             ->with('address')
             ->with('tasks')
             ->find($request->id);
-            return $task;
-    
+        return $task;
+
     }
 
-    public function search(Request $request) {
-            $data = $this->_model->where('name', 'like', '%'.$request->searchInput.'%');
-            return $data
+    public function search(Request $request)
+    {
+        $data = $this->_model->where('name', 'like', '%' . $request->searchInput . '%');
+        return $data
             ->with('managedHrs')
             ->with('address')
             ->with('tasks')->paginate(10);
@@ -43,17 +44,17 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
     public function createCompany(Request $request)
     {
         $check = $this->_model->where(DB::raw('BINARY `email`'), $request->email)->exists();
-        if($check) {
-            if(Http::get('https://api.vietqr.io/v2/business/'.$request->tax_code)['data']) {
+        if ($check) {
+            if (Http::get('https://api.vietqr.io/v2/business/' . $request->tax_code)['data']) {
                 $temp = Arr::except($request->all(), ['image']);
-                if($request->file('image')){
+                if ($request->file('image')) {
                     $image = $request->file('image');
-                    $imageName = time().$image->getClientOriginalName();
+                    $imageName = time() . $image->getClientOriginalName();
                     $image->move(public_path('images/'), $imageName);
-                    $temp["image"] = asset('images/'.$imageName);
+                    $temp["image"] = asset('images/' . $imageName);
                 }
                 $data = $this->_model->create($temp);
-                $token = hash_hmac('sha256', Str::random(40) , config('app.key'));
+                $token = hash_hmac('sha256', Str::random(40), config('app.key'));
                 $data["token"] = $token;
                 $data["fullname"] = $data["name"];
                 Activation::create([
@@ -71,37 +72,34 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
 
     public function editCompany(Request $request)
     {
-        if(Http::get('https://api.vietqr.io/v2/business/'.$request->tax_code)['data']) {
-            $company = $this->_model->find($request->id);
-            if($company) {
-                $temp = Arr::except($request->all(), ['image']);
-                if($request->file('image') && !Str::contains($request->file('image')->getClientOriginalName(), $company->image)){
-                    $image = $request->file('image');
-                    $imageName = time().$image->getClientOriginalName();
-                    $image->move(public_path('images/'), $imageName);
-                    $temp["image"] = asset('images/'.$imageName);
-                }
-                $data = $company->update($temp);
-                return $data;
-            } else {
-                return null;
+        $company = $this->_model->find($request->id);
+        if ($company) {
+            $temp = Arr::except($request->all(), ['image']);
+            if ($request->file('image') && !Str::contains($request->file('image')->getClientOriginalName(), $company->image)) {
+                $image = $request->file('image');
+                $imageName = time() . $image->getClientOriginalName();
+                $image->move(public_path('images/'), $imageName);
+                $temp["image"] = asset('images/' . $imageName);
             }
+            $data = $company->update($temp);
+            return $data;
         } else {
             return null;
         }
+
     }
 
     public function acceptHr(Request $request)
     {
         $hr = User::find($request->id);
-        if($request->action == 'accept') {
+        if ($request->action == 'accept') {
             $data = $hr->update(['hraccepted' => 1]);
-            if($data) {
+            if ($data) {
                 return ["message" => "hr accepted"];
             } else {
                 return null;
             }
-        } else if ($request->action == 'reject'){
+        } else if ($request->action == 'reject') {
             $hr->delete();
             return ["message" => "hr rejected"];
         }
