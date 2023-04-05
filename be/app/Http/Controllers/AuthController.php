@@ -30,6 +30,7 @@ class AuthController extends Controller
             }
             else if ($request->role == 'company') {
                 $user = Company::where(DB::raw('BINARY `email`'), $fields['email'])->first();
+                $user["role"] = 2;
             }
 
             if (!$user || $fields['password'] !== $user->password) {
