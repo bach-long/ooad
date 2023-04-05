@@ -17,5 +17,7 @@ interface CompanyRepositoryInterface
     public function search(Request $request);
 
     public function editCompany(Request $request);
+
+    public function acceptHr(Request $request);
     
 }
