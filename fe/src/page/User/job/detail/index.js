@@ -72,8 +72,6 @@ Chúng tôi đang tìm kiếm những bạn trẻ tiềm năng và nhiệt huy�
     getDetail(id);
   }, []);
 
-  console.log("detail", info);
-
   return (
     <Col span={24}>
       <BannerJob data={info} />

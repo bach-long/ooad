@@ -1,7 +1,7 @@
 import axios from "../../config/axios";
 
-export const getTask = (page) => {
-  return axios.get(`/api/task/all?page=${page}`);
+export const getTask = (page, query) => {
+  return axios.get(`/api/task/search?page=${page}&${query}`);
 };
 
 export const taskRecommend = () => {

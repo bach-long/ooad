@@ -27,6 +27,8 @@ const CV = () => {
     }
   };
 
+  console.log(user);
+
   return (
     <Col
       style={{

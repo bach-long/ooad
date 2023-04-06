@@ -49,12 +49,12 @@ const SearchCompany = () => {
               return (
                 <Card
                   key={key}
-                  name={item.name}
-                  address={item.address}
-                  link={item.link}
-                  email={item.email}
-                  image={item.image}
-                  id={item.id}
+                  name={item?.name}
+                  address={item?.address?.name}
+                  link={item?.link}
+                  email={item?.email}
+                  image={item?.image}
+                  id={item?.id}
                 />
               );
             })}
