@@ -46,6 +46,7 @@ class ApplierSeeder extends Seeder
             ]);
             Project::insert(
                 [
+                [
                     "profile_id" => $profile->id,
                     "amount_of_member" => 1,
                     "start" => $dt->subYear(1)->toDateString(),
@@ -60,6 +61,7 @@ class ApplierSeeder extends Seeder
                     "end" => $dt->subYear(1)->addMonths(3)->toDateString(),
                     "technology" => Str::random(20),
                     "description" => Str::random(500),
+                ]
                 ]
             );
 
