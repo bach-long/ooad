@@ -19,7 +19,7 @@ class Task extends Model
         'description',
         'requiment',
         'amount',
-        'method',
+        'benefit',
         'salary_min',
         'salary_max',
         'year_of_experience',
