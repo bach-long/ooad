@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Row, Col, Pagination } from "antd";
 import Banner from "../../../../component/home/Banner";
 import Card from "./Card";
@@ -8,38 +8,22 @@ const SearchCompany = () => {
   const [companies, setCompanies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState(1);
-  const data = [
-    {
-      name: "Trương Tam Phong",
-      address: "Đại học quốc",
-      link: "uet.vnu.edu.vn",
-    },
-    {
-      name: "Trương Tam Phong",
-      address: "Đại học quốc",
-      link: "uet.vnu.edu.vn",
-    },
-    {
-      name: "Trương Tam Phong",
-      address: "Đại học quốc",
-      link: "uet.vnu.edu.vn",
-    },
-    {
-      name: "Trương Tam Phong",
-      address: "Đại học quốc",
-      link: "uet.vnu.edu.vn",
-    },
-  ];
 
   const handleSearch = (key) => {
     console.log("search company");
   };
 
-  const getCompanies = async () => {
-    const res = await getCompaniesService();
+  const getCompanies = async (currentPage) => {
+    const res = await getCompaniesService(currentPage);
     if (res.success && res.data) {
+      setCompanies(res.data.data);
+      setTotal(res.data.total);
     }
   };
+
+  useEffect(() => {
+    getCompanies(currentPage);
+  }, [currentPage]);
 
   return (
     <Col span={24}>
@@ -59,9 +43,9 @@ const SearchCompany = () => {
           <Row className="font-text-28" style={{ paddingBottom: 53 }}>
             Tổng số công ty sử dụng web
           </Row>
-          {data &&
-            data.length > 0 &&
-            data.map((item, key) => {
+          {companies &&
+            companies.length > 0 &&
+            companies.map((item, key) => {
               return (
                 <Card
                   key={key}
@@ -69,11 +53,18 @@ const SearchCompany = () => {
                   address={item.address}
                   link={item.link}
                   email={item.email}
+                  image={item.image}
+                  id={item.id}
                 />
               );
             })}
           <Row style={{ paddingTop: 20, justifyContent: "center" }}>
-            <Pagination defaultCurrent={1} total={50} size="large" />;
+            <Pagination
+              defaultCurrent={1}
+              total={total}
+              size="large"
+              onChange={(page) => setCurrentPage(page)}
+            />
           </Row>
         </Col>
       </Row>

@@ -15,3 +15,15 @@ export const getInfoTask = (id) => {
 export const getProfileUser = (id) => {
   return axios.get(`/api/profile/info/${id}`);
 };
+
+export const getCategories = () => {
+  return axios.get(`/api/category/all`);
+};
+
+export const getAddress = () => {
+  return axios.get(`/api/address/all`);
+};
+
+export const getCompanies = () => {
+  return axios.get(`/api/company/selection/`);
+};
