@@ -24,7 +24,6 @@ export default function AuthProvider({ children }) {
 
   const getCategories = async () => {
     const res = await getCategoriesService();
-    console.log("fetched categories");
     if (res.success === 1 && res.data) {
       setCategories(res.data);
     }
@@ -32,7 +31,6 @@ export default function AuthProvider({ children }) {
 
   const getCompanies = async () => {
     const res = await getCompaniesService();
-    console.log("fetched getCompaniesService");
     if (res.success === 1 && res.data) {
       const companies = await buildAddress(res.data);
       setCompanies(companies);
@@ -41,7 +39,6 @@ export default function AuthProvider({ children }) {
 
   const getAddress = async () => {
     const res = await getAddressService();
-    console.log("fetch address");
     if (res.success === 1 && res.data) {
       setAddress(res.data);
     }

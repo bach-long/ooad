@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { buildSalary } from "../const/BuildSalaray";
 import { arrayToString } from "../const/arrayToString";
 import moment from "moment";
-const BoxJob = ({ data, size, key }) => {
+const BoxJob = ({ data, size, key, image = "" }) => {
   const navigate = useNavigate();
   return (
     <Row
@@ -15,7 +15,7 @@ const BoxJob = ({ data, size, key }) => {
     >
       <Col span={4} style={{ padding: "10px 30px" }}>
         <Image
-          src={data?.company?.image}
+          src={data?.company?.image ? data?.company?.image : image}
           style={{ width: size, height: size }}
           preview={false}
         />
@@ -54,7 +54,7 @@ const BoxJob = ({ data, size, key }) => {
           </Col>
           <Col>
             <Row style={{ fontWeight: 500 }} className="fs-20">
-              {arrayToString(data?.types)}
+              {data?.types ? arrayToString(data?.types) : ""}
             </Row>
           </Col>
         </Row>

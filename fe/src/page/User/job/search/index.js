@@ -5,12 +5,32 @@ import "./Search.scss";
 import WrapBox from "../../../../layout/HomeLayout/WrapBox";
 import { AuthContext } from "../../../../provider/authProvider/index";
 import { buildCategories, buildAddress } from "../../../../const/buildData";
+import { getTask } from "../../../../service/User";
+
 const Search = () => {
   const { categories, addresses, companies } = useContext(AuthContext);
   const [categoryId, setCategoryId] = useState(null);
   const [addressId, setAddressId] = useState(null);
   const [searchText, setSearchText] = useState(null);
   const [salary, setSalary] = useState(null);
+  const [task, setTasks] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(1);
+
+  const getAllTask = async () => {
+    const res = await getTask(currentPage);
+    if (res.success === 1 && res.data) {
+      setTasks(res.data.data);
+      setTotal(res.data.total);
+    }
+  };
+  const setCurrentPageHandler = (page) => {
+    setCurrentPage(page);
+  };
+
+  useEffect(() => {
+    getAllTask();
+  }, [currentPage]);
 
   const handleSearch = (key) => {
     setSearchText(key);
@@ -69,6 +89,7 @@ const Search = () => {
               onChange={onChange}
               style={{ width: "100%" }}
               step={1000000}
+              min={1000000}
             />
           </Col>
         </Row>
@@ -87,8 +108,11 @@ const Search = () => {
       <Col style={{ padding: "40px 10% 40px 10%" }}>
         <WrapBox
           title={"Công việc đang có"}
+          setCurrentPage={setCurrentPageHandler}
           isShowAll={false}
           isPagination={true}
+          total={total}
+          data={task}
         />
       </Col>
     </Col>

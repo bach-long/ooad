@@ -9,10 +9,6 @@ const CompanyDetail = () => {
   const [data, setData] = useState({});
   const { id } = useParams();
 
-  useEffect(() => {
-    getInfoCompany(id);
-  }, []);
-
   const getInfoCompany = async (id) => {
     const res = await detailCompany(id);
     if (res.success === 1 && res.data) {
@@ -20,27 +16,37 @@ const CompanyDetail = () => {
     }
   };
 
+  useEffect(() => {
+    getInfoCompany(id);
+  }, [id]);
+
   return (
     <>
-      <Card banner={true} />
-      {data &&
-        data.length > 0 &&
-        data.map((item, index) => {
-          return (
-            <Row key={index}>
-              <DescriptionBox
-                name={item.name}
-                des={item.des}
-                paddingLeft={120}
-              />
-            </Row>
-          );
-        })}
+      <Card
+        name={data?.name}
+        link={data?.link}
+        address={data?.detail_address}
+        total={data?.tasks?.length}
+        banner={true}
+        email={data?.email}
+        image={data?.image}
+      />
+
+      <Row>
+        <DescriptionBox
+          name={"Giới thiệu công ty"}
+          des={data?.description ? data.description : "Chua co thong tin"}
+          paddingLeft={120}
+        />
+      </Row>
+
       <Col style={{ padding: "40px 10% 40px 10%" }}>
         <WrapBox
           title={"Các vị trí công ty đang đăng tuyển"}
-          isShowAll={false}
-          isPagination={true}
+          data={data?.tasks}
+          isShowAll={true}
+          image={data?.image}
+          isPagination={false}
         />
       </Col>
     </>
