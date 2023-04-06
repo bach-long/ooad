@@ -19,5 +19,7 @@ interface CompanyRepositoryInterface
     public function editCompany(Request $request);
 
     public function acceptHr(Request $request);
+
+    public function index();
     
 }
