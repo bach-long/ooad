@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Pagination } from "antd";
 import Banner from "../../../../component/home/Banner";
 import Card from "./Card";
+import { getCompaniesService } from "../../../../service/Company";
+
 const SearchCompany = () => {
+  const [companies, setCompanies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(1);
   const data = [
     {
       name: "Trương Tam Phong",
@@ -25,9 +30,17 @@ const SearchCompany = () => {
       link: "uet.vnu.edu.vn",
     },
   ];
+
   const handleSearch = (key) => {
     console.log("search company");
   };
+
+  const getCompanies = async () => {
+    const res = await getCompaniesService();
+    if (res.success && res.data) {
+    }
+  };
+
   return (
     <Col span={24}>
       <Banner

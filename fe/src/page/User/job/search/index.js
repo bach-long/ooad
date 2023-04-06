@@ -5,6 +5,8 @@ import "./Search.scss";
 import WrapBox from "../../../../layout/HomeLayout/WrapBox";
 
 const Search = () => {
+  const [careers, setCareers] = useState([]);
+  const handleSearch = (key) => {};
   const WrapBoxSearch = () => {
     return (
       <Row
@@ -18,24 +20,25 @@ const Search = () => {
           }}
         >
           <Col span={12}>
-            <BoxSearch />
+            <BoxSearch handleSearch={handleSearch} />
           </Col>
         </Row>
         <Row style={{ width: "100%", justifyContent: "center", paddingTop: 2 }}>
           <Col span={3}>
             <Select
-              placeholder="nganh nghe"
+              placeholder="Ngành nghề"
               style={{ width: "100%", borderRadius: 0 }}
+              options={careers}
             />
           </Col>
           <Col span={3}>
-            <Select placeholder="nganh nghe" style={{ width: "100%" }} />
+            <Select placeholder="Công ty" style={{ width: "100%" }} />
           </Col>
           <Col span={3}>
-            <Select placeholder="nganh nghe" style={{ width: "100%" }} />
+            <Select placeholder="Địa điểm làm việc" style={{ width: "100%" }} />
           </Col>
           <Col span={3}>
-            <Select placeholder="nganh nghe" style={{ width: "100%" }} />
+            <Select placeholder="Mức lương" style={{ width: "100%" }} />
           </Col>
         </Row>
       </Row>

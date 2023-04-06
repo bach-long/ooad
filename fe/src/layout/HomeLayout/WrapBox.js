@@ -10,7 +10,7 @@ const WrapBox = ({ title, isShowAll = true, isPagination = false }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const getAllTask = async () => {
-    const res = await getTask();
+    const res = await getTask(currentPage);
     if (res.success === 1 && res.data) {
       setTasks(res.data.data);
       setTotal(res.data.total);
@@ -20,7 +20,7 @@ const WrapBox = ({ title, isShowAll = true, isPagination = false }) => {
   const getRecommend = async () => {
     const res = await taskRecommend();
     if (res.success === 1 && res.data) {
-      setTasks(res.data.data);
+      setTasks(res.data);
     }
   };
 
@@ -31,8 +31,6 @@ const WrapBox = ({ title, isShowAll = true, isPagination = false }) => {
       getAllTask();
     }
   }, [currentPage]);
-
-  console.log(task);
 
   return (
     <>
@@ -48,7 +46,13 @@ const WrapBox = ({ title, isShowAll = true, isPagination = false }) => {
       </Row>
       {isPagination && (
         <Row style={{ justifyContent: "center" }}>
-          <Pagination defaultCurrent={currentPage} total={total} />
+          <Pagination
+            defaultCurrent={currentPage}
+            total={total}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+          />
         </Row>
       )}
     </>

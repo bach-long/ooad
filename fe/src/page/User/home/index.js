@@ -11,7 +11,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSearch = (key) => {
-    navigate(`/job/${key}`);
+    if (!key) {
+      navigate(`/job/`);
+    } else {
+      navigate(`/job/?text=${key}`);
+    }
   };
 
   return (
