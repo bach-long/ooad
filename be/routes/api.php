@@ -105,7 +105,7 @@ Route::prefix('user')->group(function () {
 });
 
 Route::prefix('profile')->group(function () {
-    Route::middleware(['auth:sanctum'])->get('/applier/info/{id}', [UserController::class, 'info']);
-    Route::middleware(['auth:sanctum', 'abilities:role-user'])->post('/create', [UserController::class, 'create']);
-    Route::middleware(['auth:sanctum', 'abilities:role-user'])->put('/update', [UserController::class, 'update']);
+    Route::middleware(['auth:sanctum'])->get('/info/{id}', [ProfileController::class, 'info']);
+    Route::middleware(['auth:sanctum', 'abilities:role-user'])->post('/create', [ProfileController::class, 'create']);
+    Route::middleware(['auth:sanctum', 'abilities:role-user'])->put('/update', [ProfileController::class, 'update']);
 });
