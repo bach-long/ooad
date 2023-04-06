@@ -44,14 +44,14 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
         $data = $this->_model->where('name', 'like', '%' . $request->searchInput . '%');
         return $data
             ->with('address')
-            ->with('tasks')->withCount('tasks')->paginate(10);
+            ->with('tasks')->withCount('tasks')->orderBy('tasks_count', 'DESC')->paginate(10);
     }
 
     public function index()
     {
         return $this->_model
             ->with('address')
-            ->with('tasks')->withCount('tasks')->paginate(10);
+            ->with('tasks')->withCount('tasks')->orderBy('tasks_count', 'DESC')->paginate(10);
     }
 
     public function createCompany(Request $request)
