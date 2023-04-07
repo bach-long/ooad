@@ -72,8 +72,12 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
             EXPdetail::destroy($deleteExpDetail);
             Project::destroy($deleteProjects);
 
-            $profile->workablePlaces()->sync($request->workable_places);
-            $profile->skills()->sync($request->skills);
+            if ($request->workable_places) {
+                $data->workablePlaces()->sync($request->workable_places);
+            }
+            if ($request->skills) {
+                $data->skills()->sync($request->skills);
+            }
             return $data;
         } else {
             return null;
