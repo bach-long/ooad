@@ -26,6 +26,7 @@ const BoxSearch = memo(
             onChange={(e) => {
               setKey(e.target.value);
             }}
+            allowClear={true}
           />
         </Col>
         <Col span={4}>

@@ -7,7 +7,7 @@ const BoxCV = ({ title, isEdit = false, children }) => {
   return (
     <Row className="box-cv box-shadow-bottom" style={{ width: "100%" }}>
       <Col span={24}>
-        <Row style={{ justifyContent: "space-between" }}>
+        <Row style={{ justifyContent: "space-between", paddingBottom: 15 }}>
           <Col span={22} className="font-text-28">
             {title}
           </Col>

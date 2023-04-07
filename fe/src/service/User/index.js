@@ -27,3 +27,7 @@ export const getAddress = () => {
 export const getCompanies = () => {
   return axios.get(`/api/company/selection/`);
 };
+
+export const getExps = () => {
+  return axios.get(`/api/exp/all`);
+};
