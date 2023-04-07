@@ -80,7 +80,7 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
             if ($request->skills) {
                 $profile->skills()->sync($request->skills);
             }
-            return $data;
+            return $profile;
         } else {
             return null;
         }
