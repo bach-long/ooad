@@ -21,10 +21,12 @@ class MailController extends Controller
                 'valid' => false,
                 'active' => true,
             ]);
-            return response()->json([
+            /*return response()->json([
                 "success" => 1,
                 "message" => "account actived"
             ]);
+            */
+            return view('emails.verifyPage');
         }
     }
 }
