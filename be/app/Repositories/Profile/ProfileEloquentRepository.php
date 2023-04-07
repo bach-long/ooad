@@ -37,10 +37,12 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
     public function updateProfile(Request $request)
     {
         $profile = $this->_model->where('applier_id', $request->user()->id)->first();
+        //dd($profile->projects);
         $projectIds = Arr::pluck($profile->projects, 'id');
-        $expDetailIds = Arr::pluck($profile->exp_detail, 'id');
+        $expDetailIds = Arr::pluck($profile->expDetail, 'id');
         $newProjects = $request->projects;
         $newExpDetail = $request->exp_detail;
+
 
         $deleteProjects =
             array_filter($projectIds, function ($id) use ($newProjects) {
@@ -73,10 +75,10 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
             Project::destroy($deleteProjects);
 
             if ($request->workable_places) {
-                $data->workablePlaces()->sync($request->workable_places);
+                $profile->workablePlaces()->sync($request->workable_places);
             }
             if ($request->skills) {
-                $data->skills()->sync($request->skills);
+                $profile->skills()->sync($request->skills);
             }
             return $data;
         } else {
