@@ -62,7 +62,7 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
         }
         $data = $profile->update($tempt);
         if ($data) {
-            /*if($newExpDetail) {
+            if($newExpDetail) {
                 foreach ($newExpDetail as &$item) {
                     $item["profile_id"] = $profile->id;
                 }
@@ -89,7 +89,13 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
             if ($request->skills) {
                 $profile->skills()->sync($request->skills);
             }
-            */
+            $user = User::find($profile->applier_id);
+            $user->update([
+                'birth_year' => $tempt["birth_year"],
+                'fullname' => $tempt["fullname"],
+                'gender' => (int) $tempt["gender"] + 2,
+                'email' => $tempt["gender"],
+            ]);
             return $profile;
         } else {
             return null;

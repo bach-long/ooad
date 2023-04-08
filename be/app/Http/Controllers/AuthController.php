@@ -40,7 +40,7 @@ class AuthController extends Controller
                     'status' => 400,
                 ]);
             }
-            dd($user->tokens());
+            //dd($user->tokens());
             $user->tokens()->delete();
 
             $token = $user->createToken('authToken', ['role-' . $request->role])->plainTextToken;
