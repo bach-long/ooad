@@ -34,6 +34,12 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
             } else {
                 $task["applied"] = false;
             }
+
+            if($task->savedBy->contains($request->user()->id)) {
+                $task["saved"] = true;
+            } else {
+                $task["saved"] = false;
+            }
         }
         //dd($request->user()->role);
         if($request->user()->role != 1 && $request->user()->role != 2) {
