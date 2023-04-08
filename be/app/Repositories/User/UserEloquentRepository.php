@@ -25,7 +25,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     {
         $input = "";
         if ($request->searchInput) {
-            $input = $request->searchInput();
+            $input = $request->searchInput;
         }
         $data = $this->_model->where('fullname', 'like', '%' . $input . '%');
         if ($request->year_of_experience) {
@@ -40,7 +40,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         }
         $data = $data->whereHas('appliedTasks', function ($query) use ($request) {
             $query->where('hr_id', $request->hr_id);
-        })->get();
+        });
         if ($data) {
             return $data
                 ->with(['profile' => ['address', 'birth_year', 'category']])->get();
