@@ -85,7 +85,7 @@ class UserController extends Controller
     public function save(Request $request)
     {
         try {
-            $data = $this->userRepository->saveTask($request->user_id, $request->task_id, $request->action);
+            $data = $this->userRepository->saveTask($request);
             if ($data) {
                 return response()->json(
                     [
