@@ -131,7 +131,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
                         'birth_year' => $temp["birth_year"],
                         'fullname' => $temp["fullname"],
                         'gender' => (int) $temp["gender"] + 2,
-                        'email' => $temp["gender"],
+                        'email' => $temp["email"],
                     ]);
                 }
                 return $data;
