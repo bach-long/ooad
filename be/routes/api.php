@@ -9,6 +9,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExpController;
+use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('exp')->group(function () {
         Route::get('/all', [ExpController::class, 'index']);
+    });
+    Route::prefix('type')->group(function () {
+        Route::get('/all', [TypeController::class, 'index']);
     });
 });
 
