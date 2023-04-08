@@ -48,7 +48,7 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
     }
 
     public function getApplier (Request $request) {
-        $appliers = $this->_model->find($request->id)->appliedBy()->with(['birthYear', 'profile' => ['address', 'expYear']])->orderBy('applier_task.created_at', 'DESC')->paginate(10);
+        $appliers = $this->_model->find($request->id)->appliedBy()->with(['birthYear', 'profile' => ['address', 'expYear', 'category']])->orderBy('applier_task.created_at', 'DESC')->paginate(10);
         if($appliers) {
             return $appliers;
         } else {
