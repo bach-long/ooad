@@ -87,10 +87,17 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
             'birthYear', 'managedBy' => ['address'], 
             ])->find($id);
         //dd(get_class($data->managedTasks()));
-        $data["managedTasks"] = $data->managedTasks()->with(['category', 'expYear', 'types', 'address'])
-        ->orderBy('created_at', 'DESC')->paginate(10);
         $data["newAppliers"] = $this->newAppliers($id);
         return $data;
+    }
+
+    public function hrTasks($id) {
+        $data = Task::where('hr_id', $id)->orderBy('created_at', 'DESC')->get();
+        if($data) {
+            return $data;
+        } else {
+            return null;
+        }
     }
 
     public function newAppliers($hr_id)
