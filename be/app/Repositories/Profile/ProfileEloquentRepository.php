@@ -34,8 +34,8 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
             ->where('applier_id', $request->id)->first();
         if($request->user()->role == 1) {
             $data['appliedTasks'] = Task::where('hr_id', $request->user()->id)->whereHas('appliedBy', function ($query) use ($request) {
-                $query->where('id',$request->id);
-            })->get();
+                $query->where('users.id',$request->id);
+            })->with('category', 'address')->get();
         }
         return $data;
     }
