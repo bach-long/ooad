@@ -42,8 +42,8 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
             $query->where('hr_id', $request->hr_id);
         });
         if ($data) {
-            return $data
-                ->with(['profile' => ['address', 'birth_year', 'category']])->get();
+            return $data->with('birth_year')
+                ->with(['profile' => ['address', 'category']])->get();
         } else {
             return null;
         }
