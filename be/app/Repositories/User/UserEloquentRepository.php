@@ -43,7 +43,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         });
         if ($data) {
             return $data->with('birth_year')
-                ->with(['profile' => ['address', 'category']])->get();
+                ->with(['profile' => ['address', 'category', 'expYear', 'level']])->get();
         } else {
             return null;
         }
