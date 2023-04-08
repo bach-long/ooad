@@ -27,7 +27,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         if ($request->searchInput) {
             $input = $request->searchInput();
         }
-        $data = $this->_model->where('name', 'like', '%' . $input . '%');
+        $data = $this->_model->where('fullname', 'like', '%' . $input . '%');
         if ($request->year_of_experience) {
             $data = $data->whereHas('profile', function ($query) use ($request) {
                 $query->where('year_of_experience', $request->year_of_experience);
