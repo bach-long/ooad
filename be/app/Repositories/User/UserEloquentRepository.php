@@ -35,7 +35,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         }
         if ($request->category_id) {
             $data = $data->whereHas('profile', function ($query) use ($request) {
-                $query->where('year_of_experience', $request->category_id);
+                $query->where('category_id', $request->category_id);
             });
         }
         $data = $data->whereHas('appliedTasks', function ($query) use ($request) {
