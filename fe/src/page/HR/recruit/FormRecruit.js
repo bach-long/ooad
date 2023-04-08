@@ -10,18 +10,6 @@ import { buildAddress, buildCategories } from "../../../const/buildData";
 const FormRecruit = ({ onSubmit }) => {
   const { exps, categories, addresses, types } = useContext(AuthContext);
 
-  const addressesSelect = useMemo(() => {
-    return buildAddress(addresses, false);
-  }, [addresses]);
-
-  const expsSelect = useMemo(() => {
-    return buildCategories(exps, false);
-  }, [exps]);
-
-  const typesSelect = useMemo(() => {
-    return buildCategories(types, false);
-  }, [types]);
-
   return (
     <Col
       style={{
@@ -61,7 +49,7 @@ const FormRecruit = ({ onSubmit }) => {
                   width: "100%",
                   backgroundColor: "transparent!important",
                 }}
-                options={expsSelect}
+                options={buildCategories(exps, false)}
               />
             </FormItemVertical>
           </Col>
@@ -160,7 +148,7 @@ const FormRecruit = ({ onSubmit }) => {
               name={"address_id"}
               required={true}
             >
-              <Select options={addressesSelect} />
+              <Select options={buildAddress(addresses, false)} />
             </FormItemVertical>
           </Col>
           <Col span={8} className="custom">
@@ -178,15 +166,11 @@ const FormRecruit = ({ onSubmit }) => {
               name={"types"}
               required={true}
             >
-              <Select mode="multiple" options={typesSelect} />
+              <Select mode="multiple" options={buildCategories(types, false)} />
             </FormItemVertical>
           </Col>
           <Col span={8} className="custom">
-            <FormItemVertical
-              label="Phương thức làm việc:"
-              name={"method"}
-              required={true}
-            >
+            <FormItemVertical label="Đãi ngộ:" name={"benefit"} required={true}>
               <Input />
             </FormItemVertical>
           </Col>
