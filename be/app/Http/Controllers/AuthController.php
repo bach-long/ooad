@@ -27,10 +27,10 @@ class AuthController extends Controller
             if($request->role == 'user' || $request->role == 'hr') {
                 $user = User::where(DB::raw('BINARY `email`'), $fields['email'])->first();
                 if($user-> role != 1 && $request->role === 'hr') {
-                    throw("not your role");
+                    throw new Exception("not your role");
                 }
                 if($user-> role != 0 && $request->role === 'user') {
-                    throw("not your role");
+                    throw new Exception("not your role");
                 }
             }
             else if ($request->role == 'company') {
