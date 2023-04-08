@@ -94,7 +94,7 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
                 'birth_year' => $tempt["birth_year"],
                 'fullname' => $tempt["fullname"],
                 'gender' => (int) $tempt["gender"] + 2,
-                'email' => $tempt["gender"],
+                'email' => $tempt["email"],
             ]);
             return $profile;
         } else {
