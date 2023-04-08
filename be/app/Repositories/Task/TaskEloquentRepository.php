@@ -27,7 +27,6 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
             ->with('company')
             ->with('hr')
             ->with('address')
-            ->with("appliedBy")
             ->withCount('appliedBy')
             ->find($request->id);
         if($request->user()->role == 0) {
@@ -43,12 +42,18 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
                 $task["saved"] = false;
             }
         }
-        //dd($request->user()->role);
-        if($request->user()->role != 1 && $request->user()->role != 2) {
-            unset($task["appliedBy"]);
-        }
+        //dd($request->user()->role)
         return $task;
 
+    }
+
+    public function getApplier (Request $request) {
+        $appliers = $this->_model->find($request->id)->appliedBy()->orderBy('applier_task.created_at', 'DESC')->paginate(10);
+        if($appliers) {
+            return $appliers;
+        } else {
+            return null;
+        }
     }
 
     public function search(Request $request)
