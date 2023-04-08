@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Task;
 
+use App\Models\Applier_task;
 use App\Models\Type_task;
 use App\Models\User;
 use App\Repositories\EloquentRepository;
@@ -153,8 +154,10 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     public function acceptApplier(Request $request)
     {
-        $user = User::find($request->applier_id);
-        if($user->appliedBy()->updateExistingPivot($request->task_id, ['fail' => 2])){
+        $data = Applier_task::where('applier_id', $request->applier_id)->whereIn('task_id', $request->task_id);
+        if($data->update([
+            "fail" => 2, 
+        ])){
             return true;
         } else {
             return false;
@@ -163,8 +166,10 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     public function rejectApplier(Request $request)
     {
-        $user = User::find($request->applier_id);
-        if($user->appliedBy()->updateExistingPivot($request->task_id, ['fail' => 3])){
+        $data = Applier_task::where('applier_id', $request->applier_id)->whereIn('task_id', $request->task_id);
+        if($data->update([
+            "fail" => 3, 
+        ])){
             return true;
         } else {
             return false;
