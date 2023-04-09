@@ -63,7 +63,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         });;
         //dd($data->get());
         if($request->accepted) {
-           $data = $data->where('hraccepted', $request->accepted); 
+           $data = $data->where('hraccepted', $request->accepted + 1); 
         }
         if ($data) {
             return $data->withCount('managedTasks')->with('birthYear')->orderBy('created_at', 'DESC')->paginate(10);; 
