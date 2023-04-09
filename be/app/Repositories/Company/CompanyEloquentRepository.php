@@ -87,7 +87,7 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
     public function hrOfCompany(Request $request) {
         $company = $request->user();
         if($company) {
-            $data = $company->managedHrs()->orderBy('created_at', 'DESC')->paginate(10);
+            $data = $company->managedHrs()->with('birthYear')->withCount('managedTasks')->orderBy('created_at', 'DESC')->paginate(10);
             if($data) {
                 return $data;
             } else {
