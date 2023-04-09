@@ -4,6 +4,7 @@ namespace App\Repositories\Company;
 use App\Models\Activation;
 use App\Models\User;
 use App\Repositories\EloquentRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,10 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
     public function getDetail(Request $request)
     {
         $task = $this->_model
-            ->with('managedHrs')
+            ->withCount('managedHrs')
+            ->with('managedHrs', function($query) {
+                $query->orderBy('created_at', 'DESC')->limit(3);
+            })
             ->with('address')
             ->with('tasks', function($q) {
                 $q->limit(5);
@@ -32,9 +36,6 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
             ->withCount('tasks')
             ->find($request->id);
         //$task->tasks()->limit(2);
-        if($request->role == 0) {
-            unset($task["managedHrs"]);
-        }
         return $task;
 
     }
@@ -77,6 +78,20 @@ class CompanyEloquentRepository extends EloquentRepository implements CompanyRep
                 return $data;
             } else {
                 return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public function hrOfCompany(Request $request) {
+        $company = $request->user();
+        if($company) {
+            $data = $company->managedHrs()->orderBy('created_at', 'DESC')->paginate(10);
+            if($data) {
+                return $data;
+            } else {
+                throw new Exception('can not find hrs of this company');
             }
         } else {
             return null;
