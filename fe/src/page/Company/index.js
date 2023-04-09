@@ -18,6 +18,10 @@ const Company = () => {
       label: <Link to={"/manager"}>Quản lý nhân sự</Link>,
       key: "manager",
     },
+    {
+      label: <Link to={"/company"}>Hồ sơ công ty</Link>,
+      key: "company",
+    },
   ];
 
   return (

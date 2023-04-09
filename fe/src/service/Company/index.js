@@ -11,3 +11,7 @@ export const detailCompany = (id) => {
 export const postTask = (data) => {
   return axios.post("/api/task/new", data);
 };
+
+export const getInfoCompany = (id) => {
+  return axios.get(`/api/company/info/${id}`);
+};
