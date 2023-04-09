@@ -89,10 +89,18 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
             $temp["image"] = asset('images/' . $imageName);
         }
         if ($request->role == 1) {
+            if(!$request->company_id) {
+                throw new Exception('you must choose your company');
+            }
             $temp["hraccepted"] = 1;
         };
-        $temp["role"] += 1;
-        $temp["gender"] = (int) $temp["gender"] + 2;
+        if($request->role !== null) {
+            $temp["role"] += 1;
+        }
+        if($request->gender !== null) {
+            $temp["gender"] = (int) $temp["gender"] + 2;
+        }
+        dd($temp["gender"]);
         $data = $this->_model->create($temp);
         $token = hash_hmac('sha256', Str::random(40), config('app.key'));
         $data["token"] = $token;

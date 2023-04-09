@@ -23,13 +23,15 @@ class AuthController extends Controller
             ]);
 
             $user = null;
-
+            //dd($request->role);
             if($request->role == 'user' || $request->role == 'hr') {
                 $user = User::where(DB::raw('BINARY `email`'), $fields['email'])->first();
-                if($user-> role != 1 && $request->role === 'hr') {
+                //dd($user);
+                //dd($user->role);
+                if($user->role != 1 && $request->role === 'hr') {
                     throw new Exception("not your role");
                 }
-                if($user-> role != 0 && $request->role === 'user') {
+                if($user->role != 0 && $request->role === 'user') {
                     throw new Exception("not your role");
                 }
             }
@@ -37,7 +39,7 @@ class AuthController extends Controller
                 $user = Company::where(DB::raw('BINARY `email`'), $fields['email'])->first();
                 $user["role"] = 2;
             }
-
+            //dd($user);
             if (!$user || $fields['password'] !== $user->password) {
                 return response()->json([
                     'success' => 0,
@@ -45,11 +47,9 @@ class AuthController extends Controller
                     'status' => 400,
                 ]);
             }
-
             $user->tokens()->delete();
-
             $token = $user->createToken('authToken', ['role-' . $request->role])->plainTextToken;
-
+            //dd($token);
             return response()->json([
                 'success' => 1,
                 'data' => [
@@ -61,7 +61,7 @@ class AuthController extends Controller
         } catch (Exception $error) {
             return response()->json([
                 'success' => 0,
-                'message' => 'Error in Login',
+                'message' => $error->getMessage(),
                 'error' => $error,
             ]);
         }
