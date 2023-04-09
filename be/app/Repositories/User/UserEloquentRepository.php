@@ -60,9 +60,12 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         $data = $this->_model->where('role', 1)->where('company_id', $request->user()->id)
         ->where(function ($query) use ($input) {
             $query->where('fullname', 'like', '%' . $input . '%')->orWhere('email', 'like', '%' . $input . '%');
-        })->withCount('managedTasks')->with('birthYear')->orderBy('created_at', 'DESC')->paginate(10);
+        });
+        if($request->accepted) {
+           $data = $data->where('hraccepted', $request->accepted); 
+        }
         if ($data) {
-            return $data; 
+            return $data->withCount('managedTasks')->with('birthYear')->orderBy('created_at', 'DESC')->paginate(10);; 
         } else {
             return null;
         }
