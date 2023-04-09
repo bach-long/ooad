@@ -108,7 +108,7 @@ class UserController extends Controller
         }
     }
 
-    public function searchApplier(Request $request)
+    public function searchAppliers(Request $request)
     {
         try {
             $data = $this->userRepository->search($request);
@@ -122,6 +122,31 @@ class UserController extends Controller
                 );
             } else {
                 throw new Exception('can not find applier');
+            }
+        } catch (Exception $err) {
+            return response()->json(
+                [
+                    'message' => $err->getMessage(),
+                    'success' => 0,
+                ]
+            );
+        }
+    }
+
+    public function searchHrs(Request $request)
+    {
+        try {
+            $data = $this->userRepository->searchHr($request);
+            if ($data) {
+                return response()->json(
+                    [
+                        'data' => $data,
+                        'message' => 'hrs of company',
+                        'success' => 1,
+                    ], 200
+                );
+            } else {
+                throw new Exception('can not find hrs');
             }
         } catch (Exception $err) {
             return response()->json(
