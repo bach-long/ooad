@@ -27,7 +27,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         if ($request->searchInput) {
             $input = $request->searchInput;
         }
-        $data = $this->_model->where('role', 0)->where(function ($query) use ($input) {
+        $data = $this->_model->where('role', '0')->where(function ($query) use ($input) {
             $query->where('fullname', 'like', '%' . $input . '%')->orWhere('email', 'like', '%' . $input . '%');
         });
         if ($request->year_of_experience) {
@@ -57,10 +57,10 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         if ($request->searchInput) {
             $input = $request->searchInput;
         }
-        $data = $this->_model->where('role', 1)->where('company_id', $request->user()->id)
-        ->where(function ($query) use ($input) {
+        $data = $this->_model->where('role', '1')->where('company_id', $request->user()->id)->where(function ($query) use ($input) {
             $query->where('fullname', 'like', '%' . $input . '%')->orWhere('email', 'like', '%' . $input . '%');
-        });
+        });;
+        //dd($data->get());
         if($request->accepted) {
            $data = $data->where('hraccepted', $request->accepted); 
         }
