@@ -20,6 +20,7 @@ class AuthController extends Controller
             $fields = $request->validate([
                 'email' => 'email|required',
                 'password' => 'required',
+                'repassword' => 'required',
             ]);
 
             $user = null;
@@ -92,9 +93,14 @@ class AuthController extends Controller
             $fields = $request->validate([
                 'email' => 'email|required',
                 'newpassword' => 'required',
+                'checknewpassword' => 'required',
             ]);
 
             $user = null;
+
+            if($request->newpassword != $request->checknewpassword) {
+                throw new Exception('new password not match');
+            }
 
             if($request->role == 'user' || $request->role == 'hr') {
                 $user = User::where(DB::raw('BINARY `email`'), $fields['email'])->first();
