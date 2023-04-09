@@ -5,6 +5,7 @@ use App\Models\Activation;
 use App\Models\Profile;
 use App\Models\Task;
 use App\Repositories\EloquentRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +74,9 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
 
     public function createUser(Request $request)
     {
+        if($request->password != $request->repassword) {
+            throw new Exception('password not match');
+        }
         $check = $this->_model->where(DB::raw('BINARY `email`'), $request->email)->exists();
         if ($check) {
             return ["error" => "email has been taken"];
@@ -85,7 +89,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
             $temp["image"] = asset('images/' . $imageName);
         }
         if ($request->role == 1) {
-            $temp["hraccepted"] = -1;
+            $temp["hraccepted"] = 1;
         };
         $temp["role"] += 1;
         $temp["gender"] = (int) $temp["gender"] + 2;
