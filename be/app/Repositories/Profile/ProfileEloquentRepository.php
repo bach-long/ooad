@@ -24,6 +24,7 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
     public function info($request)
     {
         $data = $this->_model->with([
+            "applier",
             'projects',
             'expDetail',
             'skills',
