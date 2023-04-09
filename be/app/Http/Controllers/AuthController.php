@@ -20,7 +20,6 @@ class AuthController extends Controller
             $fields = $request->validate([
                 'email' => 'email|required',
                 'password' => 'required',
-                'repassword' => 'required',
             ]);
 
             $user = null;
@@ -108,7 +107,6 @@ class AuthController extends Controller
             }
             else if ($request->role == 'company') {
                 $user = Company::where(DB::raw('BINARY `email`'), $fields['email'])->first();
-                $user["role"] = 2;
             }
 
             //dd($user);
