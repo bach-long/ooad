@@ -50,17 +50,25 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
         $deleteProjects = null;
         $deleteExpDetail = null;
 
+        //dd($request->all());
+
         if($projectIds) {
-            $deleteProjects =
-            array_filter($projectIds, function ($id) use ($newProjects) {
-            return !in_array($id, Arr::pluck($newProjects, 'id'));
-        });
+            if($newProjects == null) {
+                $deleteProjects = $projectIds;
+            } else {
+                $deleteProjects = array_filter($projectIds, function ($id) use ($newProjects) {
+                    return !in_array($id, Arr::pluck($newProjects, 'id'));
+                });
+            }
         }
         if($expDetailIds) {
-            $deleteExpDetail =
-            array_filter($expDetailIds, function ($id) use ($newExpDetail) {
-            return !in_array($id, Arr::pluck($newExpDetail, 'id'));
-        });
+            if($newExpDetail == null) {
+                $deleteExpDetail = $expDetailIds;
+            } else {
+                $deleteExpDetail = array_filter($expDetailIds, function ($id) use ($newExpDetail) {
+                    return !in_array($id, Arr::pluck($newExpDetail, 'id'));
+                });
+            }
         }
         $tempt = Arr::except($request->all(), ['projects', 'exp_detail', 'workable_places', 'skills', 'image']);
         if(array_key_exists("gender", $tempt)) {
@@ -68,13 +76,13 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
         }
         $data = $profile->update($tempt);
         if ($data) {
-            if($newExpDetail) {
+            if($newExpDetail !== null) {
                 foreach ($newExpDetail as &$item) {
                     $item["profile_id"] = $profile->id;
                 }
                 EXPdetail::query()->upsert($newExpDetail, ['id'], ['profile_id', 'place', 'content']);
             }
-            if($newProjects) {
+            if($newProjects !== null) {
                 foreach ($newProjects as &$item) {
                     $item["profile_id"] = $profile->id;
                 }
@@ -91,9 +99,13 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
 
             if ($request->workable_places) {
                 $profile->workablePlaces()->sync($request->workable_places);
+            } else {
+                $profile->skills()->detach();
             }
             if ($request->skills) {
                 $profile->skills()->sync($request->skills);
+            } else {
+                $profile->skills()->detach();
             }
             $user = User::find($profile->applier_id);
             $user->update([
@@ -102,6 +114,8 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
                 'gender' => (int) $tempt["gender"] + 2,
                 'email' => $tempt["email"],
             ]);
+            $profile->workablePlaces;
+            $profile->skills;
             return $profile;
         } else {
             return null;

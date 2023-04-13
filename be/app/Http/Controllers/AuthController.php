@@ -48,7 +48,7 @@ class AuthController extends Controller
                 ]);
             }
             $user->tokens()->delete();
-            $token = $user->createToken('authToken', ['role-' . $request->role])->plainTextToken;
+            $token = $user->createToken($request->email, ['role-' . $request->role])->plainTextToken;
             //dd($token);
             return response()->json([
                 'success' => 1,
