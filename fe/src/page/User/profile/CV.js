@@ -27,7 +27,7 @@ import { singUpForm } from "../../../service/Auth/SignUpForm";
 const { TextArea } = Input;
 
 const CV = () => {
-  const { authUser, addresses, exps } = useContext(AuthContext);
+  const { authUser, addresses, exps, categories } = useContext(AuthContext);
   const [workablePlaces, setWorkablePlaces] = useState([]);
   const [user, setUser] = useState({});
   const [form] = Form.useForm();
@@ -200,6 +200,17 @@ const CV = () => {
               <Select
                 style={{ minWidth: 200 }}
                 options={buildAddress(addresses, false)}
+                disabled={!edit}
+              />
+            </FormItemHorizontal>
+            <FormItemHorizontal
+              name={"category_id"}
+              label={"Lĩnh vực làm việc:"}
+              required={true}
+            >
+              <Select
+                style={{ minWidth: 200 }}
+                options={buildCategories(categories, false)}
                 disabled={!edit}
               />
             </FormItemHorizontal>
