@@ -53,7 +53,7 @@ const CVUser = ({
             <Row className="fs-24 bold ">Các Job ứng viên ứng tuyển</Row>
             {user?.appliedTasks?.length > 0 &&
               user.appliedTasks.map((task, index) => {
-                return task?.pivot?.fail === "-1" ? (
+                return task?.pivot ? (
                   <Row
                     style={{
                       alignItems: "center",

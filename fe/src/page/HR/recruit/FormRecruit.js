@@ -136,7 +136,7 @@ const FormRecruit = ({
               disabled={true}
               format={""}
             >
-              <DatePicker mode={"date"} style={{ width: "100%" }} />
+              <DatePicker mode={"date"} min={new Date()} style={{ width: "100%" }} value={new Date()}/>
             </FormItemVertical>
           </Col>
           <Col span={8} className="custom">
@@ -145,6 +145,7 @@ const FormRecruit = ({
               name={"end"}
               required={true}
             >
+<<<<<<< Updated upstream
               <DatePicker
                 style={{ width: "100%" }}
                 onChange={(e) => {
@@ -152,6 +153,9 @@ const FormRecruit = ({
                   console.log(e.date.split("T")[0]);
                 }}
               />
+=======
+              <DatePicker mode={"date"} style={{ width: "100%" }}/>
+>>>>>>> Stashed changes
             </FormItemVertical>
           </Col>
           <Col span={8} className="custom">
