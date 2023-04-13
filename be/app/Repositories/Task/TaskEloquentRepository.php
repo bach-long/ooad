@@ -31,14 +31,14 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
             ->with('address')
             ->withCount('appliedBy')
             ->find($request->id);
-        if($request->user()->role == 0) {
-            if($task->appliedBy->contains($request->user()->id)) {
+        if ($request->user()->role == 0) {
+            if ($task->appliedBy->contains($request->user()->id)) {
                 $task["applied"] = true;
             } else {
                 $task["applied"] = false;
             }
 
-            if($task->savedBy->contains($request->user()->id)) {
+            if ($task->savedBy->contains($request->user()->id)) {
                 $task["saved"] = true;
             } else {
                 $task["saved"] = false;
@@ -49,9 +49,10 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     }
 
-    public function getApplier (Request $request) {
+    public function getApplier(Request $request)
+    {
         $appliers = $this->_model->find($request->id)->appliedBy()->with(['birthYear', 'profile' => ['address', 'expYear', 'category']])->orderBy('applier_task.created_at', 'DESC')->paginate(10);
-        if($appliers) {
+        if ($appliers) {
             return $appliers;
         } else {
             return null;
@@ -61,7 +62,7 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
     public function search(Request $request)
     {
         $input = "";
-        if($request->searchInput) {
+        if ($request->searchInput) {
             $input = $request->searchInput;
         }
         //dd($input);
@@ -79,7 +80,7 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
         if ($request->company_id) {
             $data = $data->where('company_id', $request->company_id);
         }
-        if($request->status) {
+        if ($request->status) {
             $data = $data->where('status', $request->status);
         }
         if ($request->_salary) {
@@ -87,7 +88,7 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
                 function ($query) use ($request) {
                     $query->where([
                         ['salary_min', '>=', (int) $request->_salary],
-                    ])->orWhere(function($query) {
+                    ])->orWhere(function ($query) {
                         $query->whereNull('salary_min')->whereNull('salary_max');
                     });
                 });
@@ -103,7 +104,7 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
     public function createTask(Request $request)
     {
         $temp = Arr::except($request->all(), ["types"]);
-        if(!Carbon::createFromFormat('Y-m-d', $temp["end"])->gte(Carbon::createFromFormat('Y-m-d', $temp["start"]))) {
+        if (!Carbon::createFromFormat('Y-m-d', $temp["end"])->gte(Carbon::createFromFormat('Y-m-d', $temp["start"]))) {
             throw new Exception('time not valid');
         }
         //dd(Carbon::createFromFormat('Y-m-d', $temp["end"]));
@@ -141,37 +142,48 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
     {
         //dd($request->user()->profi(le->workablePlaces);
         //dd(Arr::pluck($request->user()->profile->workablePlaces, 'id'));
-        if($request->user()->profile){
-            $data = $this->_model->whereIn('address_id', Arr::pluck($request->user()->profile->workablePlaces, 'id'))->where('category_id', $request->user()->profile->category_id)
-            ->with('category')
-            ->with('expYear')
-            ->with('types')
-            ->with('company')
-            ->with('address')
-            ->orderBy('created_at', 'DESC')
-            ->limit(6)
-            ->get();
+        if ($request->user()->profile) {
+            $data = $this->_model->whereIn('address_id', Arr::pluck($request->user()->profile->workablePlaces, 'id'))->orWhere('category_id', $request->user()->profile->category_id)
+                ->with('category')
+                ->with('expYear')
+                ->with('types')
+                ->with('company')
+                ->with('address')
+                ->orderBy('created_at', 'DESC')
+                ->limit(6)
+                ->get();
+            if (!$data || $data === null);{
+                $data = $this->_model
+                    ->with('category')
+                    ->with('expYear')
+                    ->with('types')
+                    ->with('company')
+                    ->with('address')
+                    ->orderBy('created_at', 'DESC')
+                    ->limit(6)
+                    ->get();
+            }
         } else {
             $data = $this->_model
-            ->with('category')
-            ->with('expYear')
-            ->with('types')
-            ->with('company')
-            ->with('address')
-            ->orderBy('created_at', 'DESC')
-            ->limit(6)
-            ->get();
+                ->with('category')
+                ->with('expYear')
+                ->with('types')
+                ->with('company')
+                ->with('address')
+                ->orderBy('created_at', 'DESC')
+                ->limit(6)
+                ->get();
         }
-        
+
         return $data;
     }
 
     public function acceptApplier(Request $request)
     {
         $data = Applier_task::where('applier_id', $request->applier_id)->whereIn('task_id', $request->task_id);
-        if($data->update([
-            "fail" => 2, 
-        ])){
+        if ($data->update([
+            "fail" => 2,
+        ])) {
             return true;
         } else {
             return false;
@@ -181,9 +193,9 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
     public function rejectApplier(Request $request)
     {
         $data = Applier_task::where('applier_id', $request->applier_id)->whereIn('task_id', $request->task_id);
-        if($data->update([
-            "fail" => 3, 
-        ])){
+        if ($data->update([
+            "fail" => 3,
+        ])) {
             return true;
         } else {
             return false;
