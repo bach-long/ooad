@@ -51,22 +51,8 @@ class User extends Authenticatable
 
     protected $primarykey = 'id';
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
-
-        });
-    }
-
+    public $incrementing = true;
+    
     public function appliedTasks()
     {
         return $this->belongsToMany(Task::class, 'applier_task', 'applier_id', 'task_id')

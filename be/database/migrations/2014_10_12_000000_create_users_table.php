@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->increments('id');
             $table->string('fullname', 50);
             $table->string('email')->unique();
             $table->string('image')->nullable();
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->smallInteger('birth_year')->nullable();
             $table->enum('gender', [-1, 0, 1])->default(-1);
             $table->enum('role', [0, 1])->default(0);
-            $table->uuid('company_id')->nullable();
+            $table->integer('company_id')->nullable();
             $table->enum('hraccepted', [0, 1])->nullable();
             $table->rememberToken();
             $table->timestamps();

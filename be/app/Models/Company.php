@@ -28,19 +28,7 @@ class Company extends Model
 
     protected $primarykey = 'id';
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if(empty($model->id))
-            $model->id = (string) Str::uuid();
-        });
-    }
+    public $incrementing = true;
 
     public function managedHrs () {
         return $this->hasMany(User::class, 'company_id', 'id');

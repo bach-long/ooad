@@ -31,18 +31,11 @@ class Task extends Model
 
     protected $primarykey = 'id';
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
+    public $incrementing = true;
 
     public static function boot()
     {
         parent::boot();
-
-        static::creating(function ($model) {
-            if(empty($model->id))
-            $model->id = (string) Str::uuid();
-        });
 
         static::deleting(function ($model) {
             $model->appliedBy()->detach();
