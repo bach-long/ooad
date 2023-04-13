@@ -100,7 +100,7 @@ class ProfileEloquentRepository extends EloquentRepository implements ProfileRep
             if ($request->workable_places) {
                 $profile->workablePlaces()->sync($request->workable_places);
             } else {
-                $profile->skills()->detach();
+                $profile->workablePlaces()->detach();
             }
             if ($request->skills) {
                 $profile->skills()->sync($request->skills);
