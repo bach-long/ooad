@@ -47,7 +47,6 @@ const CV = () => {
     await form.validateFields();
     const data = form.getFieldsValue();
     data.skills = filterId(data.skills);
-    data.workable_places = filterValue(data.workable_places);
     const res = await updateProfile(data);
     if (res.success === 1) {
       toast.success("Update thành công");
@@ -241,8 +240,6 @@ const CV = () => {
                 <Select
                   mode="multiple"
                   style={{ minWidth: 200 }}
-                  value={workablePlaces}
-                  onChange={setWorkablePlaces}
                   options={buildAddress(addresses, false)}
                   disabled={!edit}
                 />
