@@ -126,6 +126,9 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     public function editTask(Request $request)
     {
+        if (!Carbon::createFromFormat('Y-m-d', $request->end)->gte(Carbon::createFromFormat('Y-m-d', $request->start))) {
+            throw new Exception('time not valid');
+        }
         $task = $this->_model->find($request->id);
         $temp = Arr::except($request->all(), ["types"]);
         $task->types()->sync($request->types);
