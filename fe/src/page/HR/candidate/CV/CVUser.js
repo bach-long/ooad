@@ -21,6 +21,8 @@ const CVUser = ({
     }
   };
 
+  console.log(user);
+
   useEffect(() => {
     getInfoProfile(id);
   }, [change]);
