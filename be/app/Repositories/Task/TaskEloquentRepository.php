@@ -141,7 +141,6 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
         if($request->user()->id != $task->hr_id) {
             throw new Exception("not your task");
         }
-        dd($task);
         $task->update(['status' => 0]);
         return true;
     }
