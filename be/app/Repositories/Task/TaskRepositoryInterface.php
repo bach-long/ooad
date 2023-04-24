@@ -27,5 +27,7 @@ interface TaskRepositoryInterface
     public function rejectApplier(Request $request);
 
     public function getApplier(Request $request);
+
+    public function closeTask(Request $request);
     
 }
