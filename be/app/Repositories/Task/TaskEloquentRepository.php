@@ -141,6 +141,10 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
         if($request->user()->id != $task->hr_id) {
             throw new Exception("not your task");
         }
+        $checkProfiles = Applier_task::where('task_id', $task->id)->where('fail', 0)->exists();
+        if($checkProfiles) {
+            throw new Exception("All profiles must be checked");
+        }
         $task->update(['status' => 0]);
         return true;
     }
