@@ -137,10 +137,10 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
 
     public function closeTask(Request $request)
     {
-        if($request->user()->id != $request->id) {
+        $task = $this->_model->find($request->id);
+        if($request->user()->id != $task->hr_id) {
             throw new Exception("not your task");
         }
-        $task = $this->_model->find($request->id);
         return $task->update(['status' => 1]);
     }
 
