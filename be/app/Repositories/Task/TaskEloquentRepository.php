@@ -43,6 +43,11 @@ class TaskEloquentRepository extends EloquentRepository implements TaskRepositor
             } else {
                 $task["saved"] = false;
             }
+
+            $task["passInfo"] = Applier_task::where(['task_id' => $request->id, 'applier_id' => $request->user()->id])->first();
+
+            unset($task["appliedBy"]);
+            unset($task["savedBy"]);
         }
         //dd($request->user()->role)
         return $task;
