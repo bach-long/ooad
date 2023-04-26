@@ -142,7 +142,7 @@ class AuthController extends Controller
         } catch (Exception $err) {
             return response()->json([
                 'success' => 0,
-                'message' => 'Error in reset password',
+                'message' => $err->getMessage(),
                 'error' => $err,
             ]);
         }
